@@ -6,9 +6,13 @@ fileType = filename.split('.')[-1].lower()
 #clear scene
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete()
-#import stl files
-if fileType == 'stl':
-    bpy.ops.import_mesh.stl(filepath = filename)
+#import stl files, 
+#Support for new (4.0.0) stl importer with check for older versions
+if fileType == 'stl': 
+    if bpy.app.version >= (4, 0, 0):
+        bpy.ops.wm.stl_import(filepath=filename)
+    else:
+        bpy.ops.import_mesh.stl(filepath=filename)
 elif fileType == 'obj':
     bpy.ops.import_scene.obj(filepath = filename)
 elif fileType == 'dae':
